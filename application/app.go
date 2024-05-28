@@ -1,9 +1,11 @@
 package application
 
 import (
+	"blog/config"
 	"blog/controller"
-	"blog/routes"
 	"blog/entities"
+	"blog/routes"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -11,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Run() {
+func Run(cfg *config.Config) {
 	// l, zl := logger.New("INFO")
 	// go l.Run()
 
@@ -23,8 +25,10 @@ func Run() {
 	if err !=nil{
 		panic(err)
 	}
-	db.AutoMigrate(entities.User{})
+	fmt.Println("Database connected")
+	db.AutoMigrate(&entities.User{})
+	fmt.Println("Database migrated")
 	appController := controller.New()
 	httpApp.Mount("/api/v1/app", routes.AppRoutes(appController))
-	httpApp.Listen("127.0.0.1:8080")
+	httpApp.Listen("127.0.0.1:9090")
 }
