@@ -3,8 +3,8 @@ package controller
 import (
 	"blog/model"
 	"blog/usecase"
-	"fmt"
 	"net/http"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,7 +14,7 @@ type appController struct {
 }
 
 func New(u usecase.User) AppController {
-	return &appController{}
+	return &appController{u}
 }
 
 func (ac *appController) GetTest(c *fiber.Ctx) error {
@@ -40,11 +40,7 @@ func (ac *appController) CreateUser(c *fiber.Ctx) error {
 		})
 	}
 	fmt.Printf("data: %v", data)
-	if err := ac.userUsecase.CreateUser(data); err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
-	}
+	ac.userUsecase.CreateUser(data)
 
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"message": "User created successfully",

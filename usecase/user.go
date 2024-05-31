@@ -15,7 +15,7 @@ func NewUserUsecase(userRepo repo.UserRepo) User {
 		userRepo,
 	}
 }
-func (uu *userUsecase)CreateUser(user model.User) error {
+func (uu *userUsecase) CreateUser(data model.User) error {
 	fmt.Println("USECASE")
-	return uu.userRepo.CreateUser(user)
+	return uu.userRepo.CreateUser(data)
 }
