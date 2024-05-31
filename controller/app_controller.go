@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"blog/dto"
 	"blog/model"
 	"blog/usecase"
-	"net/http"
 	"fmt"
+	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -33,14 +35,26 @@ func (ac *appController) GetTest(c *fiber.Ctx) error {
 // @Success 200 {string} string "ok"
 // @Router /create [post]
 func (ac *appController) CreateUser(c *fiber.Ctx) error {
-	data := model.User{}
+	data := dto.UserDto{}
 	if err := c.BodyParser(&data); err != nil {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 	fmt.Printf("data: %v", data)
-	ac.userUsecase.CreateUser(data)
+	validate:=validator.New()
+	if err := validate.Struct(data); err != nil{
+		fmt.Printf("ERROR: %v",err)
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	creationData:=model.User{
+		Name: data.Name,
+		Phone: data.Phone,
+		Family: data.Family,
+	}
+	ac.userUsecase.CreateUser(creationData)
 
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"message": "User created successfully",
