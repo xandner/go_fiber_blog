@@ -23,3 +23,5 @@ func (ur *userRepo) CreateUser(data model.User) error {
 	}
 	return nil
 }
+
+func (ur *userRepo) ReadUserByPhone() {}

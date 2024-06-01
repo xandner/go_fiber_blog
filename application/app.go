@@ -33,9 +33,11 @@ func Run(cfg *config.Config) {
 	fmt.Println("Database migrated")
 	userRepo := repo.NewUserRepo(db)
 	userUsecase := usecase.NewUserUsecase(userRepo)
+	authUsecase:= usecase.NewAuthUsecase(userRepo)
 
 	appController := controller.New(userUsecase)
+	authController:= controller.NewAuthController(authUsecase)
 	httpApp.Get("/swagger/*", swagger.HandlerDefault)
-	httpApp.Mount("/api/v1/app", routes.AppRoutes(appController))
+	httpApp.Mount("/api/v1/app", routes.AppRoutes(appController,authController))
 	httpApp.Listen("127.0.0.1:9090")
 }

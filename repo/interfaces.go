@@ -7,5 +7,6 @@ import (
 type (
 	UserRepo interface {
 		CreateUser(data model.User) error
+		ReadUserByPhone()
 	}
 )

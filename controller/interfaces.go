@@ -7,4 +7,8 @@ type (
 		GetTest(*fiber.Ctx) error
 		CreateUser(*fiber.Ctx) error
 	}
+	AuthController interface {
+		Login(*fiber.Ctx) error 
+		SignUp(*fiber.Ctx) error
+	}
 )
