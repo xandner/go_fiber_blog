@@ -1,8 +1,13 @@
 package controller
 
 import (
+	"blog/dto"
+	"blog/model"
 	"blog/usecase"
+	"fmt"
+	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -22,8 +27,28 @@ func (a *authController) Login(c *fiber.Ctx) error {
 }
 
 func (a *authController) SignUp(c *fiber.Ctx) error {
-	if 1 == 2 {
-		return fiber.NewError(400, "error")
+	data := dto.UserDto{}
+	if err := c.BodyParser(&data); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
-	return a.authUsecase.SignUp()
+	fmt.Printf("data: %v", data)
+	validate := validator.New()
+	if err := validate.Struct(data); err != nil {
+		fmt.Printf("ERROR: %v", err)
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+	creationData := model.User{
+		Name:   data.Name,
+		Phone:  data.Phone,
+		Family: data.Family,
+	}
+	a.authUsecase.SignUp(creationData)
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"message": "User created successfully",
+	})
 }

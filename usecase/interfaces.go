@@ -8,6 +8,6 @@ type (
 	}
 	Auth interface {
 		Login() error
-		SignUp() error
+		SignUp(userData model.User) error
 	}
 )
