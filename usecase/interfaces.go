@@ -1,13 +1,16 @@
 package usecase
 
-import "blog/model"
+import (
+	"blog/dto"
+	"blog/model"
+)
 
 type (
 	User interface {
 		CreateUser(data model.User) error
 	}
 	Auth interface {
-		Login() error
+		Login(loginData dto.UserLoginDto) error
 		SignUp(userData model.User) error
 	}
 )

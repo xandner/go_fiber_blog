@@ -19,6 +19,7 @@ require (
 	github.com/go-playground/validator/v10 v10.20.0 // indirect
 	github.com/gofiber/fiber/v2 v2.52.4 // indirect
 	github.com/gofiber/swagger v1.0.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/ilyakaznacheev/cleanenv v1.5.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

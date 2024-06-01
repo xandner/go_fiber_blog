@@ -20,10 +20,20 @@ func NewAuthController(authUsecase usecase.Auth) AuthController {
 }
 
 func (a *authController) Login(c *fiber.Ctx) error {
-	if 1 == 2 {
-		return fiber.NewError(400, "error")
+	loginData := dto.UserLoginDto{}
+	if err := c.BodyParser(&loginData); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
-	return a.authUsecase.Login()
+	validate := validator.New()
+	if err := validate.Struct(loginData); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return a.authUsecase.Login(loginData)
 }
 
 func (a *authController) SignUp(c *fiber.Ctx) error {

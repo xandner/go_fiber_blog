@@ -1,10 +1,13 @@
 package usecase
 
 import (
+	"blog/dto"
 	"blog/model"
 	"blog/repo"
 	"fmt"
+	"time"
 
+	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -17,12 +20,33 @@ func NewAuthUsecase(userRepo repo.UserRepo) Auth {
 		userRepo,
 	}
 }
-
-func (au *authUsecase) Login() error {
-	fmt.Println("Login")
+func checkHashPassword(password, hashedPassword string) error {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	if err != nil {
+		return fmt.Errorf("password is incorrect")
+	}
 	return nil
 }
-func (au *authUsecase) hashPassword(password string) (string,error) {
+func (au *authUsecase) Login(userData dto.UserLoginDto) error {
+	user, err := au.userRepo.ReadUserByPhone(userData.Phone)
+	if user.Phone != userData.Phone {
+		return fmt.Errorf("user not found")
+	}
+	if err != nil {
+		return err
+	}
+	err = checkHashPassword(userData.Password, user.Password)
+	if err != nil {
+		return err
+	}
+	// TODO create jwt token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"userID": user.id,
+		"exp":    time.Now().Add(time.Hour * 72).Unix(), // 3 days
+	})
+
+}
+func (au *authUsecase) hashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(bytes), err
 }
@@ -32,7 +56,7 @@ func (au *authUsecase) SignUp(userData model.User) error {
 		return err
 	}
 	userData.Password = hashedPassword
-	err=au.userRepo.CreateUser(userData)
+	err = au.userRepo.CreateUser(userData)
 	if err != nil {
 		return err
 	}

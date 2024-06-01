@@ -24,4 +24,11 @@ func (ur *userRepo) CreateUser(data model.User) error {
 	return nil
 }
 
-func (ur *userRepo) ReadUserByPhone() {}
+func (ur *userRepo) ReadUserByPhone(phone string) (model.User,error) {
+	var user model.User
+	err := ur.db.Where("phone = ?", phone).First(&user)
+	if err != nil {
+		return user,err.Error
+	}
+	return user,nil
+}

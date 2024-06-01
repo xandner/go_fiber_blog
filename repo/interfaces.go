@@ -7,6 +7,6 @@ import (
 type (
 	UserRepo interface {
 		CreateUser(data model.User) error
-		ReadUserByPhone()
+		ReadUserByPhone(phone string) (model.User, error)
 	}
 )
