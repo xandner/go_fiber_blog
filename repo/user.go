@@ -1,6 +1,7 @@
 package repo
 
 import (
+	"blog/entities"
 	"blog/model"
 
 	"gorm.io/gorm"
@@ -24,11 +25,18 @@ func (ur *userRepo) CreateUser(data model.User) error {
 	return nil
 }
 
-func (ur *userRepo) ReadUserByPhone(phone string) (model.User,error) {
-	var user model.User
+func (ur *userRepo) ReadUserByPhone(phone string) (model.UserInfo,error) {
+	var user entities.User
 	err := ur.db.Where("phone = ?", phone).First(&user)
-	if err != nil {
-		return user,err.Error
+	foundedUser:=model.UserInfo{
+		Id: user.ID,
+		Name: user.Name,
+		Phone: user.Phone,
+		Family: user.Family,
+		Password: user.Password,
 	}
-	return user,nil
+	if err != nil {
+		return foundedUser,err.Error
+	}
+	return foundedUser,nil
 }

@@ -33,7 +33,15 @@ func (a *authController) Login(c *fiber.Ctx) error {
 		})
 	}
 
-	return a.authUsecase.Login(loginData)
+	token, err := a.authUsecase.Login(loginData)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"token": token,
+	})
 }
 
 func (a *authController) SignUp(c *fiber.Ctx) error {
