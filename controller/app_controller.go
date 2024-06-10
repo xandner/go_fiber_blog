@@ -68,7 +68,8 @@ func (ac *appController) CreateUser(c *fiber.Ctx) error {
 // @accept json
 // @produce json
 // @param id path int true "Article ID"
-// @router /article/{id} [get]
+// @router /api/v1/app/article/{id} [get]
+// @BasicAuth
 func (ac *appController) GetArticleByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 	intId, err := strconv.Atoi(id)
@@ -85,3 +86,25 @@ func (ac *appController) GetArticleByID(c *fiber.Ctx) error {
 	}
 	return c.Status(http.StatusOK).JSON(article)
 }
+
+// func (ac *appController) CreateArticle(c *fiber.Ctx) error{
+// 	data := dto.CreateArticleDto{}
+// 	if err := c.BodyParser(&data); err != nil {
+// 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+// 			"message": err.Error(),
+// 		})
+// 	}
+// 	fmt.Printf("data: %v", data)
+// 	validate := validator.New()
+// 	if err := validate.Struct(data); err != nil {
+// 		fmt.Printf("ERROR: %v", err)
+// 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+// 			"message": err.Error(),
+// 		})
+// 	}
+// 	creationData := model.Article{
+// 		Title:   data.Title,
+// 		Content:  data.Content,
+// 	}
+
+// }

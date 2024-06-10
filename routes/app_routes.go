@@ -2,6 +2,7 @@ package routes
 
 import (
 	"blog/controller"
+	"blog/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -16,6 +17,6 @@ func AppRoutes(c controller.AppController, a controller.AuthController) *fiber.A
 	app.Post("/signup", a.SignUp)
 
 	// Article routes
-	app.Get("/article/:id", c.GetArticleByID)
+	app.Get("/article/:id", c.GetArticleByID,middleware.JwtMiddleware())
 	return app
 }

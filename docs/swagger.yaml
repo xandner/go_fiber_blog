@@ -28,7 +28,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /article/{id}:
+  /api/v1/app/article/{id}:
     get:
       consumes:
       - application/json
