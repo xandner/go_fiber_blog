@@ -14,5 +14,8 @@ func AppRoutes(c controller.AppController, a controller.AuthController) *fiber.A
 	// Auth routes
 	app.Post("/login", a.Login)
 	app.Post("/signup", a.SignUp)
+
+	// Article routes
+	app.Get("/article/:id", c.GetArticleByID)
 	return app
 }

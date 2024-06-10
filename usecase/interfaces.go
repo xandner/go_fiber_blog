@@ -13,4 +13,7 @@ type (
 		Login(loginData dto.UserLoginDto) (string,error)
 		SignUp(userData model.User) error
 	}
+	Article interface {
+		ReadArticleByID(id int) (model.Article, error)
+	}
 )
