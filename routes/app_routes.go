@@ -17,6 +17,7 @@ func AppRoutes(c controller.AppController, a controller.AuthController) *fiber.A
 	app.Post("/signup", a.SignUp)
 
 	// Article routes
-	app.Get("/article/:id", c.GetArticleByID,middleware.JwtMiddleware())
+	articleGroup:=app.Group("/article", middleware.JwtMiddleware())
+	articleGroup.Get("/:id", c.GetArticleByID)
 	return app
 }
