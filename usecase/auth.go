@@ -27,8 +27,6 @@ func hashPassword(password string) (string, error) {
 }
 func checkHashPassword(password, hashedPassword string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-	fmt.Printf("password: %v \n", password)
-	fmt.Printf("hash: %v \n", hashedPassword)
 	if err != nil {
 		fmt.Printf("error: %v", err)
 		return fmt.Errorf("password is incorrect")
@@ -37,12 +35,10 @@ func checkHashPassword(password, hashedPassword string) error {
 }
 
 func (au *authUsecase) Login(userData dto.UserLoginDto) (string,error) {
-	fmt.Printf("userData: %v", userData)
 	user, err := au.userRepo.ReadUserByPhone(userData.Phone)
 	if user.Phone != userData.Phone {
 		return "",fmt.Errorf("user not found")
 	}
-	fmt.Printf("user: %v", user)
 	if err != nil {
 		return "",err
 	}

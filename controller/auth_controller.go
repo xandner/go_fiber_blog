@@ -51,7 +51,6 @@ func (a *authController) SignUp(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
-	fmt.Printf("data: %v", data)
 	validate := validator.New()
 	if err := validate.Struct(data); err != nil {
 		fmt.Printf("ERROR: %v", err)
@@ -63,6 +62,7 @@ func (a *authController) SignUp(c *fiber.Ctx) error {
 		Name:   data.Name,
 		Phone:  data.Phone,
 		Family: data.Family,
+		Password: data.Password,
 	}
 	a.authUsecase.SignUp(creationData)
 
