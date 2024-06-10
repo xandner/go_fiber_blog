@@ -64,7 +64,7 @@ func (ac *appController) CreateUser(c *fiber.Ctx) error {
 
 // @summary Get Article by ID
 // @description Get Article by ID
-// @tags article
+// @Tags article
 // @accept json
 // @produce json
 // @param id path int true "Article ID"

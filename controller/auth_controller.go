@@ -19,6 +19,14 @@ func NewAuthController(authUsecase usecase.Auth) AuthController {
 	return &authController{authUsecase}
 }
 
+// summary: Login
+// description: Login
+// @tags: auth
+// accept: json
+// produce: json
+// @Router /login [post]
+// @Success 200 {string} string "ok"
+// @param login body dto.UserLoginDto true "Login Data"
 func (a *authController) Login(c *fiber.Ctx) error {
 	loginData := dto.UserLoginDto{}
 	if err := c.BodyParser(&loginData); err != nil {
@@ -44,6 +52,14 @@ func (a *authController) Login(c *fiber.Ctx) error {
 	})
 }
 
+// @summary: SignUp
+// @description: SignUp
+// @tags: auth
+// @accept: json
+// @produce: json
+// @Router /signup [post]
+// @Success 200 {string} string "ok"
+// @param signup body dto.UserDto true "User Data"
 func (a *authController) SignUp(c *fiber.Ctx) error {
 	data := dto.UserDto{}
 	if err := c.BodyParser(&data); err != nil {

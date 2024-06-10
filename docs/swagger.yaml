@@ -1,3 +1,30 @@
+definitions:
+  dto.UserDto:
+    properties:
+      family:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+    required:
+    - family
+    - name
+    - password
+    - phone
+    type: object
+  dto.UserLoginDto:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    required:
+    - password
+    - phone
+    type: object
 info:
   contact: {}
 paths:
@@ -33,4 +60,32 @@ paths:
       summary: Create a new user
       tags:
       - user
+  /login:
+    post:
+      parameters:
+      - description: Login Data
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserLoginDto'
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+  /signup:
+    post:
+      parameters:
+      - description: User Data
+        in: body
+        name: signup
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDto'
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
 swagger: "2.0"
