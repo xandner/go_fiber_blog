@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type appController struct {
@@ -17,8 +18,8 @@ type appController struct {
 	articleUsecase usecase.Article
 }
 
-func New(u usecase.User,a usecase.Article) AppController {
-	return &appController{u,a}
+func New(u usecase.User, a usecase.Article) AppController {
+	return &appController{u, a}
 }
 
 func (ac *appController) GetTest(c *fiber.Ctx) error {
@@ -71,6 +72,9 @@ func (ac *appController) CreateUser(c *fiber.Ctx) error {
 // @router /api/v1/app/article/{id} [get]
 // @BasicAuth
 func (ac *appController) GetArticleByID(c *fiber.Ctx) error {
+	user := c.Locals("user").(*jwt.Token)
+	claims:=user.Claims.(jwt.MapClaims)
+	fmt.Printf("user: %v", claims)
 	id := c.Params("id")
 	intId, err := strconv.Atoi(id)
 	if err != nil {
