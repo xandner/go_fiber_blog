@@ -25,18 +25,18 @@ func (ur *userRepo) CreateUser(data model.User) error {
 	return nil
 }
 
-func (ur *userRepo) ReadUserByPhone(phone string) (model.UserInfo,error) {
+func (ur *userRepo) ReadUserByPhone(phone string) (model.UserInfo, error) {
 	var user entities.User
 	err := ur.db.Where("phone = ?", phone).First(&user)
-	foundedUser:=model.UserInfo{
-		Id: user.ID,
-		Name: user.Name,
-		Phone: user.Phone,
-		Family: user.Family,
+	foundedUser := model.UserInfo{
+		Id:       user.ID,
+		Name:     user.Name,
+		Phone:    user.Phone,
+		Family:   user.Family,
 		Password: user.Password,
 	}
 	if err != nil {
-		return foundedUser,err.Error
+		return foundedUser, err.Error
 	}
-	return foundedUser,nil
+	return foundedUser, nil
 }

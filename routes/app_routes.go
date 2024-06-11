@@ -2,8 +2,8 @@ package routes
 
 import (
 	"blog/controller"
-	"blog/middleware"
 
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -17,7 +17,12 @@ func AppRoutes(c controller.AppController, a controller.AuthController) *fiber.A
 	app.Post("/signup", a.SignUp)
 
 	// Article routes
-	articleGroup:=app.Group("/article", middleware.JwtMiddleware())
+	articleGroup := app.Group("/article", jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{
+			// JWTAlg: jwtware.RS256,
+			Key:   []byte("secret"),
+		},
+	}))
 	articleGroup.Get("/:id", c.GetArticleByID)
 	return app
 }
