@@ -29,6 +29,6 @@ func (a *articleRepo) CreateArticle(data dto.ArticleDto,user entities.User) erro
 
 func (a *articleRepo) ReadArticleByID(id int) (model.Article, error) {
 	var article model.Article
-	err := a.db.First(&article, id).Error
+	err := a.db.Where("id = ?", id).First(&article).Error
 	return article, err
 }
