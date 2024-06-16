@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"blog/config"
 	"blog/dto"
 	"blog/model"
+	"blog/pkg/utils"
 	"blog/usecase"
 	"fmt"
 	"net/http"
@@ -16,10 +18,11 @@ import (
 type appController struct {
 	userUsecase    usecase.User
 	articleUsecase usecase.Article
+	cfg *config.Config
 }
 
-func New(u usecase.User, a usecase.Article) AppController {
-	return &appController{u, a}
+func New(u usecase.User, a usecase.Article, cfg *config.Config) AppController {
+	return &appController{u, a, cfg}
 }
 
 func (ac *appController) GetTest(c *fiber.Ctx) error {
@@ -91,24 +94,38 @@ func (ac *appController) GetArticleByID(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(article)
 }
 
-// func (ac *appController) CreateArticle(c *fiber.Ctx) error{
-// 	data := dto.CreateArticleDto{}
-// 	if err := c.BodyParser(&data); err != nil {
-// 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
-// 			"message": err.Error(),
-// 		})
-// 	}
-// 	fmt.Printf("data: %v", data)
-// 	validate := validator.New()
-// 	if err := validate.Struct(data); err != nil {
-// 		fmt.Printf("ERROR: %v", err)
-// 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
-// 			"message": err.Error(),
-// 		})
-// 	}
+func (ac *appController) CreateArticle(c *fiber.Ctx) error{
+	userId,err:=utils.JwtParser(c)
+	if err!=nil{
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	data := dto.CreteArticleDto{}
+	if err := c.BodyParser(&data); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+
+	validate := validator.New()
+	if err := validate.Struct(data); err != nil {
+		fmt.Printf("ERROR: %v", err)
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
+	user,err:=ac.userUsecase.GetUserByID(userId.(float64))
+	if err!=nil{
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	return ac.articleUsecase.CreateArticle(data,user)
+	// return nil
 // 	creationData := model.Article{
 // 		Title:   data.Title,
 // 		Content:  data.Content,
-// 	}
+	// }
 
-// }
+}

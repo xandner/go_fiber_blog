@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"blog/entities"
 	"blog/model"
 	"blog/repo"
 	"fmt"
@@ -18,4 +19,8 @@ func NewUserUsecase(userRepo repo.UserRepo) User {
 func (uu *userUsecase) CreateUser(data model.User) error {
 	fmt.Println("USECASE")
 	return uu.userRepo.CreateUser(data)
+}
+
+func (uu *userUsecase) GetUserByID(id float64) (entities.User, error) {
+	return uu.userRepo.ReadUserByID(id)
 }

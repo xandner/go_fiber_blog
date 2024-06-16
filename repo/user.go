@@ -40,3 +40,12 @@ func (ur *userRepo) ReadUserByPhone(phone string) (model.UserInfo, error) {
 	}
 	return foundedUser, nil
 }
+
+func (ur *userRepo) ReadUserByID(id float64) (entities.User, error) {
+	var user entities.User
+	err := ur.db.Where("id = ?", id).First(&user)
+	if err != nil {
+		return user, err.Error
+	}
+	return user, nil
+}

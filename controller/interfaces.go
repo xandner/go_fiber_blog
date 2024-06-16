@@ -7,7 +7,7 @@ type (
 		GetTest(*fiber.Ctx) error
 		CreateUser(*fiber.Ctx) error
 		GetArticleByID (*fiber.Ctx) error	
-		// CreateArticle (*fiber.Ctx) error
+		CreateArticle (*fiber.Ctx) error
 	}
 	AuthController interface {
 		Login(*fiber.Ctx) error 

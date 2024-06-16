@@ -48,7 +48,7 @@ func Run(cfg *config.Config) {
 	articleUsecase:= usecase.NewArticleUsecase(articleRepo)
 
 	//initialize controller
-	appController := controller.New(userUsecase,articleUsecase)
+	appController := controller.New(userUsecase,articleUsecase,cfg)
 	authController:= controller.NewAuthController(authUsecase)
 	httpApp.Get("/swagger/*", swagger.HandlerDefault)
 	httpApp.Mount("/api/v1/app", routes.AppRoutes(appController,authController))

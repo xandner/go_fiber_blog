@@ -1,6 +1,8 @@
 package repo
 
 import (
+	"blog/dto"
+	"blog/entities"
 	"blog/model"
 
 	"gorm.io/gorm"
@@ -16,8 +18,13 @@ func NewArticleRepo(db *gorm.DB) ArticleRepo {
 	}
 }
 
-func (a *articleRepo) CreateArticle(data model.Article) error {
-	return a.db.Create(&data).Error
+func (a *articleRepo) CreateArticle(data dto.ArticleDto,user entities.User) error {
+	newArticle:=model.Article{
+		Title: data.Title,
+		Content: data.Content,
+		UserID: user.ID,
+	}
+	return a.db.Create(&newArticle).Error
 }
 
 func (a *articleRepo) ReadArticleByID(id int) (model.Article, error) {

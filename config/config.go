@@ -12,7 +12,8 @@ type (
 		App App
 	}
 	App struct {
-		Port string `env:"APP_PORT" envDefault:"9090" validate:"required"`
+		Port      string `env:"APP_PORT" envDefault:"9090" validate:"required"`
+		JwtSecret string `env:"JWT_SECRET" envDefault:"secret" validate:"required"`
 	}
 )
 
@@ -24,7 +25,7 @@ func NewConfig() (*Config, error) {
 	}
 	err = cleanenv.ReadConfig("./.env", cfg)
 	if err != nil {
-		fmt.Println("error loading config")	
+		fmt.Println("error loading config")
 		return nil, err
 	}
 	err = utils.ValidateDto(cfg)

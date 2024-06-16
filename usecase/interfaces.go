@@ -2,12 +2,14 @@ package usecase
 
 import (
 	"blog/dto"
+	"blog/entities"
 	"blog/model"
 )
 
 type (
 	User interface {
 		CreateUser(data model.User) error
+		GetUserByID(id float64) (entities.User, error)
 	}
 	Auth interface {
 		Login(loginData dto.UserLoginDto) (string,error)
@@ -15,5 +17,6 @@ type (
 	}
 	Article interface {
 		ReadArticleByID(id int) (model.Article, error)
+		CreateArticle(data dto.CreteArticleDto,user entities.User) error
 	}
 )

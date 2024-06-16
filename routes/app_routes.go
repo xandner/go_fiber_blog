@@ -24,5 +24,6 @@ func AppRoutes(c controller.AppController, a controller.AuthController) *fiber.A
 		},
 	}))
 	articleGroup.Get("/:id", c.GetArticleByID)
+	articleGroup.Post("/create", c.CreateArticle)
 	return app
 }
