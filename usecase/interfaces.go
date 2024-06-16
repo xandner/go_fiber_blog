@@ -18,5 +18,6 @@ type (
 	Article interface {
 		ReadArticleByID(id int) (model.Article, error)
 		CreateArticle(data dto.CreteArticleDto,user entities.User) error
+		ReadArticles(take int, skip int) ([]model.Article, error)
 	}
 )

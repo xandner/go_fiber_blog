@@ -32,3 +32,9 @@ func (a *articleRepo) ReadArticleByID(id int) (model.Article, error) {
 	err := a.db.Where("id = ?", id).First(&article).Error
 	return article, err
 }
+
+func (a *articleRepo) ReadArticles(take int, skip int) ([]model.Article, error) {
+	var articles []model.Article
+	err := a.db.Order("id DESC").Limit(take).Offset(skip).Find(&articles).Error
+	return articles, err
+}

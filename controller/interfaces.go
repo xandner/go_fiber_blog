@@ -8,6 +8,7 @@ type (
 		CreateUser(*fiber.Ctx) error
 		GetArticleByID (*fiber.Ctx) error	
 		CreateArticle (*fiber.Ctx) error
+		GetArticles (*fiber.Ctx) error
 	}
 	AuthController interface {
 		Login(*fiber.Ctx) error 

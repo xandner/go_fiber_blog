@@ -129,3 +129,33 @@ func (ac *appController) CreateArticle(c *fiber.Ctx) error{
 	// }
 
 }
+
+// @summary Get Articles
+// @description Get Articles
+// @Tags article
+// @accept json
+// @produce json
+// @param take query int true "take"
+// @param skip query int true "skip"
+// @router /api/v1/app/article/list-articles [get]
+// @Security BearerAuth
+// @in header
+// @name Authorization
+func (ac *appController) GetArticles(c *fiber.Ctx) error{
+	fmt.Println("get articles")
+	take,err:=strconv.Atoi(c.Query("take"))
+	if err!=nil{
+		take=10
+	}
+	skip,err:=strconv.Atoi(c.Query("skip"))
+	if err!=nil{
+		skip=0
+	}
+	articles,err:=ac.articleUsecase.ReadArticles(take,skip)
+	if err!=nil{
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	return c.Status(http.StatusOK).JSON(articles)
+}

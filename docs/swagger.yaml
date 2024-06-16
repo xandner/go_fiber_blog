@@ -45,6 +45,30 @@ paths:
       summary: Get Article by ID
       tags:
       - article
+  /api/v1/app/article/list-articles:
+    get:
+      consumes:
+      - application/json
+      description: Get Articles
+      parameters:
+      - description: take
+        in: query
+        name: take
+        required: true
+        type: integer
+      - description: skip
+        in: query
+        name: skip
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get Articles
+      tags:
+      - article
   /create:
     post:
       consumes:

@@ -15,5 +15,6 @@ type (
 	ArticleRepo interface {
 		CreateArticle(data dto.ArticleDto, user entities.User) error
 		ReadArticleByID(id int) (model.Article, error)
+		ReadArticles(take int, skip int) ([]model.Article, error)
 	}
 )
