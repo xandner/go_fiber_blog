@@ -69,6 +69,35 @@ paths:
       summary: Get Articles
       tags:
       - article
+  /api/v1/app/article/list-user-articles/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get User Articles
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      - description: take
+        in: query
+        name: take
+        required: true
+        type: integer
+      - description: skip
+        in: query
+        name: skip
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get User Articles
+      tags:
+      - article
   /create:
     post:
       consumes:

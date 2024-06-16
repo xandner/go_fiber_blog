@@ -159,3 +159,37 @@ func (ac *appController) GetArticles(c *fiber.Ctx) error{
 	}
 	return c.Status(http.StatusOK).JSON(articles)
 }
+
+// @summary Get User Articles
+// @description Get User Articles
+// @Tags article
+// @accept json
+// @produce json
+// @param user_id path int true "user_id"
+// @param take query int true "take"
+// @param skip query int true "skip"
+// @router /api/v1/app/article/list-user-articles/{user_id} [get]
+// @Security BearerAuth
+func (ac *appController) GetUserArticles(c *fiber.Ctx) error{
+	userId,err:=strconv.Atoi(c.Params("user_id"))
+	if err!=nil{
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	take,err:=strconv.Atoi(c.Query("take"))
+	if err!=nil{
+		take=10
+	}
+	skip,err:=strconv.Atoi(c.Query("skip"))
+	if err!=nil{
+		skip=0
+	}
+	articles,err:=ac.articleUsecase.ReadUserArticles(take,skip,userId)
+	if err!=nil{
+		return c.Status(http.StatusNotFound).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	return c.Status(http.StatusOK).JSON(articles)
+}

@@ -38,3 +38,9 @@ func (a *articleRepo) ReadArticles(take int, skip int) ([]model.Article, error) 
 	err := a.db.Order("id DESC").Limit(take).Offset(skip).Find(&articles).Error
 	return articles, err
 }
+
+func (a *articleRepo) ReadUserArticles(take int, skip int,userId int) ([]model.Article, error) {
+	var articles []model.Article
+	err := a.db.Where("user_id = ?",userId).Order("id DESC").Limit(take).Offset(skip).Find(&articles).Error
+	return articles, err
+}

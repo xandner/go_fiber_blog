@@ -32,3 +32,7 @@ func (au *articleUsecase) CreateArticle(data dto.CreteArticleDto, user entities.
 func (au *articleUsecase) ReadArticles(take int, skip int) ([]model.Article, error) {
 	return au.articleRepo.ReadArticles(take, skip)
 }
+
+func (au *articleUsecase) ReadUserArticles(take int, skip int, userId int) ([]model.Article, error) {
+	return au.articleRepo.ReadUserArticles(take, skip, userId)
+}
