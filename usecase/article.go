@@ -22,11 +22,7 @@ func (au *articleUsecase) ReadArticleByID(id int) (model.Article, error) {
 }
 
 func (au *articleUsecase) CreateArticle(data dto.CreteArticleDto, user entities.User) error {
-	article:=dto.ArticleDto{
-		Title: data.Title,
-		Content: data.Content,
-	}
-	return au.articleRepo.CreateArticle(article, user)
+	return au.articleRepo.CreateArticle(data, user)
 }
 
 func (au *articleUsecase) ReadArticles(take int, skip int) ([]model.Article, error) {

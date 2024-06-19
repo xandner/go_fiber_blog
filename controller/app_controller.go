@@ -107,7 +107,7 @@ func (ac *appController) CreateArticle(c *fiber.Ctx) error{
 			"message": err.Error(),
 		})
 	}
-
+	fmt.Printf("data: %v", data)
 	validate := validator.New()
 	if err := validate.Struct(data); err != nil {
 		fmt.Printf("ERROR: %v", err)
@@ -122,12 +122,6 @@ func (ac *appController) CreateArticle(c *fiber.Ctx) error{
 		})
 	}
 	return ac.articleUsecase.CreateArticle(data,user)
-	// return nil
-// 	creationData := model.Article{
-// 		Title:   data.Title,
-// 		Content:  data.Content,
-	// }
-
 }
 
 // @summary Get Articles

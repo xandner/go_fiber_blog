@@ -18,11 +18,12 @@ func NewArticleRepo(db *gorm.DB) ArticleRepo {
 	}
 }
 
-func (a *articleRepo) CreateArticle(data dto.ArticleDto,user entities.User) error {
+func (a *articleRepo) CreateArticle(data dto.CreteArticleDto,user entities.User) error {
 	newArticle:=model.Article{
 		Title: data.Title,
 		Content: data.Content,
 		UserID: user.ID,
+		Published: data.Published,
 	}
 	return a.db.Create(&newArticle).Error
 }

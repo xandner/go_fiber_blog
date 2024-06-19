@@ -8,4 +8,5 @@ type ArticleDto struct {
 type CreteArticleDto struct {
 	Title  string `json:"title" validate:"required"`
 	Content string `json:"content" validate:"required"`
+	Published bool `json:"published" validate:"required"`
 }
