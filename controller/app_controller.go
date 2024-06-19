@@ -187,3 +187,38 @@ func (ac *appController) GetUserArticles(c *fiber.Ctx) error{
 	}
 	return c.Status(http.StatusOK).JSON(articles)
 }
+
+// @summary Update Article
+// @description Update Article
+// @Tags article
+// @accept json
+// @produce json
+// @param id path int true "id"
+// @router /api/v1/app/article/{id} [put]
+// @Security BearerAuth
+func (ac *appController) UpdateArticle(c *fiber.Ctx) error{
+	userId,err:=utils.JwtParser(c)
+	if err!=nil{
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	if userId==nil {
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":"unauthorized",
+		})
+	}
+	id,err:=strconv.Atoi(c.Params("id"))
+	if err!=nil{
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	data:=model.Article{}
+	if err:=c.BodyParser(&data);err!=nil{
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	return ac.articleUsecase.UpdateArticle(id,data)
+}

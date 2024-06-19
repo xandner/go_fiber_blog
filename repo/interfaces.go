@@ -17,5 +17,6 @@ type (
 		ReadArticleByID(id int) (model.Article, error)
 		ReadArticles(take int, skip int) ([]model.Article, error)
 		ReadUserArticles(take int, skip int, userId int) ([]model.Article, error)
+		UpdateArticle(articleId int, article model.Article) error
 	}
 )

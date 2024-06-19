@@ -27,6 +27,7 @@ func AppRoutes(c controller.AppController, a controller.AuthController) *fiber.A
 	articleGroup.Get("/list-articles", c.GetArticles)
 	articleGroup.Get("/list-user-articles/:user_id", c.GetUserArticles)
 	articleGroup.Get("/:id", c.GetArticleByID)
+	articleGroup.Put("/:id", c.UpdateArticle)
 
 	return app
 }

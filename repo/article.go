@@ -45,3 +45,12 @@ func (a *articleRepo) ReadUserArticles(take int, skip int,userId int) ([]model.A
 	err := a.db.Where("user_id = ?",userId).Order("id DESC").Limit(take).Offset(skip).Find(&articles).Error
 	return articles, err
 }
+
+func (a *articleRepo) UpdateArticle(articleId int,article model.Article) error {
+	oldArticle:=entities.Article{}
+	err:=a.db.Where("id = ?",articleId).First(&oldArticle).Error
+	if err!=nil{
+		return err
+	}
+	return a.db.Model(&oldArticle).Where("id = ?",oldArticle.ID).Updates(article).Error
+}

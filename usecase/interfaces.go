@@ -20,5 +20,6 @@ type (
 		CreateArticle(data dto.CreteArticleDto,user entities.User) error
 		ReadArticles(take int, skip int) ([]model.Article, error)
 		ReadUserArticles(take int, skip int,userId int) ([]model.Article, error)
+		UpdateArticle(articleId int, article model.Article) error
 	}
 )
