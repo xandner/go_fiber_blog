@@ -54,3 +54,12 @@ func (a *articleRepo) UpdateArticle(articleId int,article model.Article) error {
 	}
 	return a.db.Model(&oldArticle).Where("id = ?",oldArticle.ID).Updates(article).Error
 }
+
+func (a *articleRepo) DeleteArticle(articleId int) error {
+	article:=entities.Article{}
+	err:=a.db.Where("id = ?",articleId).First(&article).Error
+	if err!=nil{
+		return err
+	}
+	return a.db.Delete(&article).Error
+}	

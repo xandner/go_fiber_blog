@@ -222,3 +222,32 @@ func (ac *appController) UpdateArticle(c *fiber.Ctx) error{
 	}
 	return ac.articleUsecase.UpdateArticle(id,data)
 }
+
+// @summary Delete Article
+// @description Delete Article
+// @Tags article
+// @accept json
+// @produce json
+// @param id path int true "id"
+// @router /api/v1/app/article/{id} [delete]
+// @Security BearerAuth
+func (ac *appController) DeleteArticle(c *fiber.Ctx) error{
+	userId,err:=utils.JwtParser(c)
+	if err!=nil{
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	if userId==nil {
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":"unauthorized",
+		})
+	}
+	id,err:=strconv.Atoi(c.Params("id"))
+	if err!=nil{
+		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{
+			"message":err.Error(),
+		})
+	}
+	return ac.articleUsecase.DeleteArticle(id)
+}

@@ -36,3 +36,7 @@ func (au *articleUsecase) ReadUserArticles(take int, skip int, userId int) ([]mo
 func (au *articleUsecase) UpdateArticle(articleId int, article model.Article) error {
 	return au.articleRepo.UpdateArticle(articleId, article)
 }
+
+func (au *articleUsecase) DeleteArticle(articleId int) error {
+	return au.articleRepo.DeleteArticle(articleId)
+}

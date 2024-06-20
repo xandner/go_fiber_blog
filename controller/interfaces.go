@@ -11,6 +11,7 @@ type (
 		GetArticles (*fiber.Ctx) error
 		GetUserArticles (*fiber.Ctx) error
 		UpdateArticle (*fiber.Ctx) error
+		DeleteArticle (*fiber.Ctx) error
 	}
 	AuthController interface {
 		Login(*fiber.Ctx) error 
